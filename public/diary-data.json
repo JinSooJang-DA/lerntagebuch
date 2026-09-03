@@ -72,82 +72,1342 @@
   },
   "2026-09-04": {
     "date": "2026-09-04",
-    "timeSlots": [
-      {
-        "id": "slot-1788473106413",
-        "startTime": "09:00",
-        "endTime": "10:30",
-        "title": "Live Meeting",
-        "content": "Grundlage von JS",
-        "attachments": [
-          {
-            "id": "att-1788473105108-cuf7n",
-            "name": "marko-lesson.png",
-            "size": 713698,
-            "type": "image/png",
-            "url": "images/marko-lesson.png",
-            "uploadedAt": "2026-09-03T22:05:05.108Z"
-          }
-        ],
-        "completed": true
-      },
-      {
-        "id": "slot-1788473125021",
-        "startTime": "10:30",
-        "endTime": "14:30",
-        "title": "Fotogram Project gemacht",
-        "attachments": [],
-        "completed": true
-      },
-      {
-        "id": "slot-1788473193173",
-        "startTime": "16:00",
-        "endTime": "18:00",
-        "title": "Toto List",
-        "content": "als übung, versuchte TodoListe mit JS zu machen",
-        "attachments": [
-          {
-            "id": "att-1788473191292-4iuzb",
-            "name": "Screenshot_2026-09-03_222538.png",
-            "size": 247778,
-            "type": "image/png",
-            "url": "images/Screenshot_2026-09-03_222538.png",
-            "uploadedAt": "2026-09-03T22:06:31.293Z"
-          }
-        ],
-        "completed": true
-      },
-      {
-        "id": "slot-1788473221125",
-        "startTime": "18:00",
-        "endTime": "20:00",
-        "title": "neues Lerntagebuch gemacht",
-        "attachments": [],
-        "completed": true
-      },
-      {
-        "id": "slot-1788473269212",
-        "startTime": "21:00",
-        "endTime": "00:00",
-        "title": "Lerntagebuch fertig",
-        "content": "",
-        "attachments": [
-          {
-            "id": "att-1788473267434-y7rg7",
-            "name": "Screenshot_2026-09-03_231147.png",
-            "size": 233995,
-            "type": "image/png",
-            "url": "images/Screenshot_2026-09-03_231147.png",
-            "uploadedAt": "2026-09-03T22:07:47.434Z"
-          }
-        ],
-        "completed": true
-      }
-    ],
+    "timeSlots": [],
     "summary": "",
     "questionsForInstructor": "",
     "homeworkStatus": "not_started",
     "attachments": [],
-    "updatedAt": "2026-09-03T22:07:49.212Z"
+    "updatedAt": "2026-09-03T22:14:11.253Z"
+  },
+  "2026-09-02": {
+    "date": "2026-09-02",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695372-987f",
+        "startTime": "09:00",
+        "endTime": "10:20",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-pmru",
+        "startTime": "10:20",
+        "endTime": "12:00",
+        "title": "Fotogram Project gemacht",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-07bs",
+        "startTime": "12:30",
+        "endTime": "14:30",
+        "title": "Fotogram Project gemacht",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-tamr",
+        "startTime": "16:00",
+        "endTime": "17:00",
+        "title": "Fotogram Project gemacht",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-s13n",
+        "startTime": "19:00",
+        "endTime": "20:30",
+        "title": "Fotogram Project gemacht",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-tbdo",
+        "startTime": "22:00",
+        "endTime": "00:30",
+        "title": "Fotogram Project gemacht",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.372Z"
+  },
+  "2026-09-01": {
+    "date": "2026-09-01",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695372-lq5f",
+        "startTime": "09:00",
+        "endTime": "10:15",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-3m61",
+        "startTime": "10:15",
+        "endTime": "12:00",
+        "title": "Module 6 Section 3 gelernt",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-ylab",
+        "startTime": "12:30",
+        "endTime": "14:30",
+        "title": "Module 6 Section 4 gelernt",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-ai9z",
+        "startTime": "15:30",
+        "endTime": "16:30",
+        "title": "Fotogram Project angefangen und reingeschnuppert.",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-hh44",
+        "startTime": "20:30",
+        "endTime": "22:00",
+        "title": "Module 6 Section 5,6 gelernt",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.372Z"
+  },
+  "2026-08-31": {
+    "date": "2026-08-31",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695372-kj9d",
+        "startTime": "09:00",
+        "endTime": "11:00",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-efkh",
+        "startTime": "11:00",
+        "endTime": "12:30",
+        "title": "Module 6 Section 2 wiederholung",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-58hx",
+        "startTime": "12:30",
+        "endTime": "13:30",
+        "title": "Module 6 Section 3 gelernt",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-d4jm",
+        "startTime": "15:30",
+        "endTime": "17:30",
+        "title": "Module 6 Section 3 Aufgaben gemacht.",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-mphe",
+        "startTime": "18:30",
+        "endTime": "20:30",
+        "title": "Ähnliche Aufgaben wie Module 6 Section 3 gemacht und gelöst",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-0vdn",
+        "startTime": "22:00",
+        "endTime": "23:30",
+        "title": "Github Praxis gemacht",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.372Z"
+  },
+  "2026-08-28": {
+    "date": "2026-08-28",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695372-uu9a",
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-k6vf",
+        "startTime": "10:30",
+        "endTime": "11:30",
+        "title": "Java Script gelernt",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-n28m",
+        "startTime": "12:00",
+        "endTime": "15:30",
+        "title": "Blog Project wurde akzeptiert, aber versucht nach dem Feedbackl nochmal anzupassen.",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-hqgj",
+        "startTime": "15:30",
+        "endTime": "16:30",
+        "title": "Mittagspause",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-74cp",
+        "startTime": "16:30",
+        "endTime": "19:00",
+        "title": "Weiter Blog Project angepasst und erledigt..",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-zh11",
+        "startTime": "21:00",
+        "endTime": "00:00",
+        "title": "Javascript gelernt",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.372Z"
+  },
+  "2026-08-27": {
+    "date": "2026-08-27",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695372-0olg",
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "title": "Mein Blog bei  Github bearbeitet",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-puy8",
+        "startTime": "10:30",
+        "endTime": "14:30",
+        "title": "Den Haushalt machen",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-bg34",
+        "startTime": "14:30",
+        "endTime": "15:30",
+        "title": "Mittagessen",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-vy5m",
+        "startTime": "15:30",
+        "endTime": "19:30",
+        "title": "Module 6 angefangen und Blog-Projekt angepasst",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-ros7",
+        "startTime": "19:30",
+        "endTime": "21:00",
+        "title": "Abendbrot und Pause",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695372-95a2",
+        "startTime": "21:00",
+        "endTime": "23:30",
+        "title": "bis Section 1-14 gelernt.",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-26": {
+    "date": "2026-08-26",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-srxl",
+        "startTime": "09:00",
+        "endTime": "12:00",
+        "title": "Live-Calls & Team Meeting, Modul 5-Mindset und Karriere gesehen",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-i022",
+        "startTime": "12:00",
+        "endTime": "14:30",
+        "title": "Blog Projekt angepasst und abgegeben.",
+        "content": "• Clamp, Transformation, Animation gelernt.",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-6yue",
+        "startTime": "14:30",
+        "endTime": "16:30",
+        "title": "Mittagspause",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-2zwi",
+        "startTime": "16:30",
+        "endTime": "19:30",
+        "title": "Feedback bekommen und fertig angepasst",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-sg1u",
+        "startTime": "20:30",
+        "endTime": "22:00",
+        "title": "Abendpause",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-ge2w",
+        "startTime": "22:00",
+        "endTime": "00:00",
+        "title": "Fehler beim Project gefunden und wieder angepasst. Project beendet.",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-25": {
+    "date": "2026-08-25",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-av63",
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "title": "Team Meeting. Project-Abgabe geplant, aber verschoben.",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-26rc",
+        "startTime": "10:30",
+        "endTime": "14:30",
+        "title": "Team-Project weiter gemacht",
+        "content": "14:30 – 17::00\n• Mittagspause",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-mwbk",
+        "startTime": "17:00",
+        "endTime": "20:30",
+        "title": "Team-Project weiter angepasst : design & responsiv und co…",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-r502",
+        "startTime": "20:30",
+        "endTime": "21:30",
+        "title": "Abendbrot",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-kcz1",
+        "startTime": "21:30",
+        "endTime": "00:00",
+        "title": "Blog-Seite fertig angepasst und aufs Netz Hochgeladen.",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-24": {
+    "date": "2026-08-24",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-pss3",
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "title": "Live-Calls & Team meeting",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-d0fz",
+        "startTime": "10:00",
+        "endTime": "14:30",
+        "title": "Team-Project weiter gemacht",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-65jn",
+        "startTime": "14:30",
+        "endTime": "16:00",
+        "title": "Mittagspause",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-qth8",
+        "startTime": "15:30",
+        "endTime": "20:30",
+        "title": "Team-Project weiter gemacht",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-iksj",
+        "startTime": "20:30",
+        "endTime": "22:00",
+        "title": "Abendpause",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-r7yc",
+        "startTime": "22:00",
+        "endTime": "00:00",
+        "title": "Lern-Blog-Seite bei Github erstellt und angefangen.",
+        "content": "https://jinsoojang-da.github.io/my-learning-blog/",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-21": {
+    "date": "2026-08-21",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-hiwf",
+        "startTime": "09:00",
+        "endTime": "09:30",
+        "title": "Team Meeting",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-q7p3",
+        "startTime": "09:30",
+        "endTime": "14:00",
+        "title": "Meine Projektseite entwickelt",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-0x1r",
+        "startTime": "14:00",
+        "endTime": "15:30",
+        "title": "Mittagspause",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-ql0p",
+        "startTime": "15:30",
+        "endTime": "20:30",
+        "title": "Meine Projektseite und gemeinsame Seite entwickelt",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-rzj1",
+        "startTime": "20:30",
+        "endTime": "22:00",
+        "title": "Abendbrot",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-ial9",
+        "startTime": "22:00",
+        "endTime": "01:00",
+        "title": "Meine Seite fertig gemacht und Animation für Hero-section ausprobiert",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-20": {
+    "date": "2026-08-20",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-ldcu",
+        "startTime": "09:00",
+        "endTime": "09:40",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-tdcn",
+        "startTime": "09:40",
+        "endTime": "12:30",
+        "title": "Module 5 nochmal gelernt, Team meeting",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-og3h",
+        "startTime": "15:30",
+        "endTime": "20:30",
+        "title": "Contents für das Projekt gemacht, wie Intro für meine Seite und Slide-lotate",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-qh98",
+        "startTime": "21:30",
+        "endTime": "00:30",
+        "title": "Contents für das Projekt gemacht, wie Hero-section and Radio Slider",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-19": {
+    "date": "2026-08-19",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-pwmk",
+        "startTime": "09:00",
+        "endTime": "10:00",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-nwpd",
+        "startTime": "10:00",
+        "endTime": "11:30",
+        "title": "Team Meeting",
+        "content": "Planung & Festlegung für Project gemacht",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-0q0r",
+        "startTime": "11:30",
+        "endTime": "13:00",
+        "title": "Skizze für Landing Page gemacht",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-1uux",
+        "startTime": "13:00",
+        "endTime": "14:00",
+        "title": "Mittagspause",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-7m40",
+        "startTime": "14:00",
+        "endTime": "14:45",
+        "title": "Team Meeting für Github & Trello",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-p1mf",
+        "startTime": "15:00",
+        "endTime": "00:00",
+        "title": "1. Design Entwurf",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-18": {
+    "date": "2026-08-18",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-qmpt",
+        "startTime": "09:00",
+        "endTime": "11:00",
+        "title": "Live-Calls & Sakura Ramen Responsive Project",
+        "content": "nach dem Feedback fertig angepasst. Github Nutzung gelernt und ausprobiert.",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-0sar",
+        "startTime": "11:00",
+        "endTime": "15:30",
+        "title": "Ein Möbelstück gebastelt und Koreanischen Ramen gegessen und ausgeruht.",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-0d82",
+        "startTime": "15:30",
+        "endTime": "20:30",
+        "title": "CSS Slider, Git und Github weiter gelernt. Github Profil bearbeitet",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-jli9",
+        "startTime": "20:30",
+        "endTime": "22:30",
+        "title": "Filmabend",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-wo8a",
+        "startTime": "22:30",
+        "endTime": "00:00",
+        "title": "SSH von Module 5 nochmal gesehen und eingerichtet",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-17": {
+    "date": "2026-08-17",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-kkad",
+        "startTime": "07:00",
+        "endTime": "08:30",
+        "title": "Module 5-Section 1 gesehen",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-sos4",
+        "startTime": "09:00",
+        "endTime": "09:15",
+        "title": "Live Call",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-h0c8",
+        "startTime": "09:15",
+        "endTime": "14:00",
+        "title": "Module 5-Section 1-2 gesehen",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-qo8s",
+        "startTime": "15:30",
+        "endTime": "20:30",
+        "title": "Module 5-Section 3-4 und Bonus gesehen.",
+        "content": "• Verschiedene CSS coding für Slide, Animation & Transitions ausprobiert.",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-zr44",
+        "startTime": "21:30",
+        "endTime": "00:00",
+        "title": "Bei Github, Demo Project und Kandan Board erstellt.",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-14": {
+    "date": "2026-08-14",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-7jaw",
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-xs2v",
+        "startTime": "12:30",
+        "endTime": "14:30",
+        "title": "CSS-Layouts & Flexbox\"",
+        "content": "Horizontal und vertikal zentrieren\nUnterschied zwischen Margin und Padding\nResponsive Layouts mit Flexbox",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-aieq",
+        "startTime": "14:30",
+        "endTime": "15:30",
+        "title": "Mittagspause",
+        "content": "Gulaschsuppe",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-fbgl",
+        "startTime": "15:30",
+        "endTime": "20:30",
+        "title": "Flexbox vs. CSS Grid",
+        "content": "Flexbox für 1D-Ausrichtungen und Grid für 2D-Layouts.\nCSS Grid Vertiefung: YouTube-Lektionen geschaut und interaktive Übungen auf CSS Grid Garden absolviert.Praktische Anwendung: Raster-Layouts mit grid-template-columns und gap erstellt.\n\"Ganz nach dem Motto „Learning by Doing“: Wenn mir die Theorie schwerfällt, tippe ich den Code einfach selbst ab und probiere ihn aus. So verstehe ich die Konzepte Schritt für Schritt viel besser.\"",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-13": {
+    "date": "2026-08-13",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-7hu5",
+        "startTime": "09:00",
+        "endTime": "10:15",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-hl9f",
+        "startTime": "10:30",
+        "endTime": "15:00",
+        "title": "Sakura Ramen Responsive Projekt bearbeitet und  abgegeben",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-46st",
+        "startTime": "15:00",
+        "endTime": "16:00",
+        "title": "Mittagspause",
+        "content": "Minuten Steak mit Rucola-salat",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-w9xa",
+        "startTime": "16:00",
+        "endTime": "17:00",
+        "title": "Sakura Ramen Responsive Project Feedback angepasst und abgegeben",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-4yah",
+        "startTime": "17:00",
+        "endTime": "20:30",
+        "title": "HTML & CSS weitergelernt und geübt.",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-sgw7",
+        "startTime": "20:30",
+        "endTime": "21:30",
+        "title": "Abendbrot",
+        "content": "Lachs Sushi mit einer folge Serien-drama",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-p7uj",
+        "startTime": "21:30",
+        "endTime": "23:30",
+        "title": "HTML & CSS weitergelernt und geübt.",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-12": {
+    "date": "2026-08-12",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-in4a",
+        "startTime": "09:00",
+        "endTime": "10:00",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-ye0h",
+        "startTime": "10:00",
+        "endTime": "14:00",
+        "title": "CSS & Responsive Unterricht von Youtube gelernt",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-o8xs",
+        "startTime": "14:00",
+        "endTime": "15:30",
+        "title": "Mittagspause",
+        "content": "eine Pizza",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-zspy",
+        "startTime": "15:30",
+        "endTime": "20:30",
+        "title": "Start des Projekts",
+        "content": "Heute habe ich erste Schritte beim Responsive-Projekt für Sakura Ramen gemacht und verschiedene Ansätze ausprobiert.",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-11": {
+    "date": "2026-08-11",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-ssvu",
+        "startTime": "09:00",
+        "endTime": "10:20",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-ykq9",
+        "startTime": "10:30",
+        "endTime": "14:30",
+        "title": "Module 4 -’ Sektion II: Mein-PC Website responsive machen’ gesehen",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-2idr",
+        "startTime": "14:30",
+        "endTime": "15:30",
+        "title": "Mittagspause",
+        "content": "Schnitzel mit Kartoffeln, Möhrchen und Erbsen",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-es04",
+        "startTime": "15:30",
+        "endTime": "17:30",
+        "title": "Module 4",
+        "content": "‘Sektion III: HTML-Semantik’ gesehen",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-i0it",
+        "startTime": "18:00",
+        "endTime": "20:30",
+        "title": "HTML und CSS Basis selbst gelernt",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-sluy",
+        "startTime": "20:30",
+        "endTime": "22:00",
+        "title": "Abendbrot",
+        "content": "Koreanische Ramen",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-io1k",
+        "startTime": "22:00",
+        "endTime": "23:30",
+        "title": "HTML und CSS Basis selbst gelernt",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-10": {
+    "date": "2026-08-10",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-h8xr",
+        "startTime": "09:00",
+        "endTime": "09:50",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-414t",
+        "startTime": "11:00",
+        "endTime": "13:00",
+        "title": "Module 4, Section 1-1 bis 1-4,",
+        "content": "• zurück zu Module 2 und Module 3-Section 1 wiederholend gelernt\n13:00: – 15:00\n• Mittagspause und ausgeruht",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-ylgq",
+        "startTime": "15:00",
+        "endTime": "17:00",
+        "title": "Module 3 section 2 wiederholend gelernt",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-7d4d",
+        "startTime": "18:00",
+        "endTime": "20:30",
+        "title": "Module Section 1-4 Section 1-5 bis 1-20 gesehen",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-k4qa",
+        "startTime": "20:30",
+        "endTime": "22:00",
+        "title": "Abendbrot und ausgeruht",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-69et",
+        "startTime": "22:00",
+        "endTime": "23:00",
+        "title": "versucht, Mein PC Webseite responsiv zu machen",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-07": {
+    "date": "2026-08-07",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-6nne",
+        "startTime": "09:00",
+        "endTime": "10:15",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-0y6n",
+        "startTime": "10:15",
+        "endTime": "14:00",
+        "title": "‘Sakura Ramen Project’ fertig gemacht und abgegeben",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-amw7",
+        "startTime": "17:00",
+        "endTime": "23:00",
+        "title": "Feedback vom Projekt  angepasst und wieder abgegeben.",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-06": {
+    "date": "2026-08-06",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-0jip",
+        "startTime": "05:30",
+        "endTime": "23:40",
+        "title": "Hauptthema",
+        "content": "Eigenständiges Website-Rebuilding & HTML/CSS-Grundlagen • Notizen:\nVersuch, eine Website nach einem anderen Ansatz neu aufzubauen (unter Referenzierung einer KI-generierten Website)\nGrundlagen von HTML- und CSS-Tags gelernt und vertieft",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-urn0",
+        "startTime": "09:00",
+        "endTime": "10:15",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-05": {
+    "date": "2026-08-05",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-bnhh",
+        "startTime": "09:00",
+        "endTime": "10:25",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-jhfh",
+        "startTime": "10:25",
+        "endTime": "12:00",
+        "title": "Module 3",
+        "content": "Section 4-12 bis Section 4-16(Ende)\n• MeinPC_Website fertig nachgebaut.",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-5g5u",
+        "startTime": "12:00",
+        "endTime": "14:30",
+        "title": "Sakura Ramen Project gestartet und mit K.I die Seite nachbauen lassen.",
+        "content": "• Notizen: Aktuelle Herausforderung: Da ich erst seit wenigen Tagen komplett ohne Vorkenntnisse dabei bin, ist die Kombination aus Fachinhalten und der deutschen Sprache aktuell sehr anspruchsvoll. Bei der zeitlichen Vorgabe des Projekts hatte ich Bedenken, das Layout rechtzeitig von Grund auf allein aufzubauen.\nLernmethode mit KI: Ich habe mich entschieden, mir zuerst von einer KI ein visuelles und strukturelles Grundgerüst (HTML/CSS) erstellen zu lassen. Daran analysiere ich nun die Code Zeile für Zeile, um die Logik hinter Flexbox, Semantik und CSS-Eigenschaften Schritt für Schritt zu verstehen.\nZiel: Das KI-Ergebnis dient mir rein als Lernmaterial zum Dekonstruieren und Verstehen. Mir ist bewusst, dass ich den Code selbst durchdringen muss. Die finale Abgabe werde ich nach diesem Lernprozess eigenständig aufbauen und einreichen.",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-vrak",
+        "startTime": "16:30",
+        "endTime": "20:30",
+        "title": "Sakura Ramen Project",
+        "content": "coding analysiert.",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-04": {
+    "date": "2026-08-04",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-nlc1",
+        "startTime": "09:00",
+        "endTime": "10:15",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-0z7s",
+        "startTime": "10:15",
+        "endTime": "12:00",
+        "title": "Module 3",
+        "content": "Section 2-9 bis Ende der Section 2",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-hvm4",
+        "startTime": "12:30",
+        "endTime": "14:30",
+        "title": "Module 3",
+        "content": "Section 3\n• Module 3 - Section 4-1 bis Section 4-4",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-7t7k",
+        "startTime": "14:30",
+        "endTime": "15:30",
+        "title": "Mittagspause",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-j307",
+        "startTime": "15:30",
+        "endTime": "20:30",
+        "title": "Module 3",
+        "content": "Section 4-5 bis Section 4-7",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-4ukw",
+        "startTime": "20:30",
+        "endTime": "22:00",
+        "title": "Abendpause",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-ltkq",
+        "startTime": "22:00",
+        "endTime": "23:20",
+        "title": "Module 3",
+        "content": "Section 4-8 bis Section 4-11",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-08-03": {
+    "date": "2026-08-03",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-l622",
+        "startTime": "09:00",
+        "endTime": "10:00",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-gncv",
+        "startTime": "10:00",
+        "endTime": "12:00",
+        "title": "Module 2",
+        "content": "Section 2",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-qaor",
+        "startTime": "12:30",
+        "endTime": "14:30",
+        "title": "Module 2",
+        "content": "Section 3 bis 4",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-lua5",
+        "startTime": "14:30",
+        "endTime": "15:30",
+        "title": "Mittagspause",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-fh70",
+        "startTime": "15:30",
+        "endTime": "18:00",
+        "title": "Module 3",
+        "content": "Section 1 bis Section 2-8",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-8742",
+        "startTime": "20:00",
+        "endTime": "23:00",
+        "title": "Selbstlernen",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-07-31": {
+    "date": "2026-07-31",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-c0ii",
+        "startTime": "09:30",
+        "endTime": "12:30",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-oflb",
+        "startTime": "12:30",
+        "endTime": "14:00",
+        "title": "Mittagspause",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-opji",
+        "startTime": "15:00",
+        "endTime": "18:00",
+        "title": "Module 1, Module 2 Section 1 durchgelernt",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
+  },
+  "2026-09-00": {
+    "date": "2026-09-00",
+    "timeSlots": [
+      {
+        "id": "slot-1788473695373-ufef",
+        "startTime": "09:00",
+        "endTime": "10:00",
+        "title": "Live-Calls",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-de0w",
+        "startTime": "10:00",
+        "endTime": "14:30",
+        "title": "Hauptthema",
+        "content": "• Notizen:",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-fobc",
+        "startTime": "14:30",
+        "endTime": "15:30",
+        "title": "Hauptthema",
+        "content": "• Notizen:",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-8vek",
+        "startTime": "15:30",
+        "endTime": "20:30",
+        "title": "Hauptthema",
+        "content": "• Notizen:",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-ydwg",
+        "startTime": "20:30",
+        "endTime": "22:00",
+        "title": "Hauptthema",
+        "content": "• Notizen:",
+        "completed": true,
+        "attachments": []
+      },
+      {
+        "id": "slot-1788473695373-saj4",
+        "startTime": "22:00",
+        "endTime": "00:00",
+        "title": "Hauptthema",
+        "content": "• Notizen:",
+        "completed": true,
+        "attachments": []
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "in_progress",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:14:55.373Z"
   }
 }
