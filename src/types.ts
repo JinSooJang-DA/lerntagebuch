@@ -3,7 +3,8 @@ export interface DiaryAttachment {
   name: string;
   size: number;
   type: string;
-  dataUrl: string;
+  dataUrl?: string; // Optional local base64 cache
+  url?: string;     // Public relative path, e.g. "images/screenshot-1.png"
   uploadedAt: string;
 }
 

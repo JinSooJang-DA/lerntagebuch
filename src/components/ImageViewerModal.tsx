@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Download } from 'lucide-react';
 import { DiaryAttachment } from '../types';
+import { getAttachmentSrc } from '../utils/imageUtils';
 
 interface ImageViewerModalProps {
   attachment: DiaryAttachment;
@@ -11,6 +12,9 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
   attachment,
   onClose,
 }) => {
+  const imageSrc = getAttachmentSrc(attachment);
+  const displayPath = attachment.url || `images/${attachment.name}`;
+
   return (
     <div
       onClick={onClose}
@@ -24,16 +28,16 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
           <div>
             <h4 className="text-xs font-semibold truncate max-w-md">{attachment.name}</h4>
             <p className="text-[10px] text-zinc-400 font-mono">
-              {(attachment.size / 1024).toFixed(1)} KB • Uploaded {new Date(attachment.uploadedAt).toLocaleString()}
+              {displayPath} • {(attachment.size / 1024).toFixed(1)} KB • Uploaded {new Date(attachment.uploadedAt).toLocaleString()}
             </p>
           </div>
 
           <div className="flex items-center gap-2">
             <a
-              href={attachment.dataUrl}
+              href={imageSrc}
               download={attachment.name}
               className="p-1.5 text-zinc-400 hover:text-white rounded hover:bg-zinc-800 transition-colors"
-              title="Download original"
+              title="Download original for public/images/"
             >
               <Download className="w-4 h-4" />
             </a>
@@ -49,7 +53,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
 
         <div className="flex-1 overflow-auto p-4 flex items-center justify-center bg-zinc-950">
           <img
-            src={attachment.dataUrl}
+            src={imageSrc}
             alt={attachment.name}
             className="max-h-[75vh] max-w-full object-contain rounded-lg"
           />

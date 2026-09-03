@@ -1,29 +1,153 @@
 {
-  "date": "2026-09-03",
-  "entries": [
-    {
-      "time": "09:00 – 10:30",
-      "topic": "Live Meeting with Marko",
-      "notes": "Grundlage von JS",
-      "attachment": "marko-lesson.png"
-    },
-    {
-      "time": "10:30 – 14:30",
-      "topic": "Fotogram Project gemacht",
-      "notes": "",
-      "attachment": ""
-    },
-    {
-      "time": "15:30 – 17:30",
-      "topic": "Todo List with JS",
-      "notes": "als Übung versuchte eine Todoliste zu machen",
-      "attachment": "Screenshot 2026-09-03 222538.png"
-    },
-    {
-      "time": "20:00 – 23:30",
-      "topic": "Neues Lerntagebuch mit AI Studio gemacht",
-      "notes": "",
-      "attachment": "Screenshot 2026-09-03 231147.png"
-    }
-  ]
+  "2026-09-03": {
+    "date": "2026-09-03",
+    "timeSlots": [
+      {
+        "id": "slot-1788471762717",
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "title": "Live Meeting with Marko",
+        "content": "Grundlage von JS",
+        "attachments": [
+          {
+            "id": "att-1788471761335-cb6tg",
+            "name": "marko-lesson.png",
+            "size": 713698,
+            "type": "image/png",
+            "url": "images/marko-lesson.png",
+            "uploadedAt": "2026-09-03T21:42:41.335Z"
+          }
+        ],
+        "completed": true
+      },
+      {
+        "id": "slot-1788471782277",
+        "startTime": "10:30",
+        "endTime": "14:30",
+        "title": "Fotogram Project gemacht",
+        "attachments": [],
+        "completed": true
+      },
+      {
+        "id": "slot-1788471852157",
+        "startTime": "15:30",
+        "endTime": "17:30",
+        "title": "Todo List with JS",
+        "content": "als Übung versuchte eine Todoliste zu machen",
+        "attachments": [
+          {
+            "id": "att-1788471850554-r0kuj",
+            "name": "Screenshot 2026-09-03 222538.png",
+            "size": 247778,
+            "type": "image/png",
+            "url": "images/Screenshot_2026-09-03_222538.png",
+            "uploadedAt": "2026-09-03T21:44:10.554Z"
+          }
+        ],
+        "completed": true
+      },
+      {
+        "id": "slot-1788471956412",
+        "startTime": "20:00",
+        "endTime": "23:30",
+        "title": "Neues Lerntagebuch mit AI Studio gemacht",
+        "attachments": [
+          {
+            "id": "att-1788471954572-pzhsa",
+            "name": "Screenshot 2026-09-03 231147.png",
+            "size": 233995,
+            "type": "image/png",
+            "url": "images/Screenshot_2026-09-03_231147.png",
+            "uploadedAt": "2026-09-03T21:45:54.572Z"
+          }
+        ],
+        "completed": true
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "not_started",
+    "attachments": [],
+    "updatedAt": "2026-09-03T21:45:56.412Z"
+  },
+  "2026-09-04": {
+    "date": "2026-09-04",
+    "timeSlots": [
+      {
+        "id": "slot-1788473106413",
+        "startTime": "09:00",
+        "endTime": "10:30",
+        "title": "Live Meeting",
+        "content": "Grundlage von JS",
+        "attachments": [
+          {
+            "id": "att-1788473105108-cuf7n",
+            "name": "marko-lesson.png",
+            "size": 713698,
+            "type": "image/png",
+            "url": "images/marko-lesson.png",
+            "uploadedAt": "2026-09-03T22:05:05.108Z"
+          }
+        ],
+        "completed": true
+      },
+      {
+        "id": "slot-1788473125021",
+        "startTime": "10:30",
+        "endTime": "14:30",
+        "title": "Fotogram Project gemacht",
+        "attachments": [],
+        "completed": true
+      },
+      {
+        "id": "slot-1788473193173",
+        "startTime": "16:00",
+        "endTime": "18:00",
+        "title": "Toto List",
+        "content": "als übung, versuchte TodoListe mit JS zu machen",
+        "attachments": [
+          {
+            "id": "att-1788473191292-4iuzb",
+            "name": "Screenshot_2026-09-03_222538.png",
+            "size": 247778,
+            "type": "image/png",
+            "url": "images/Screenshot_2026-09-03_222538.png",
+            "uploadedAt": "2026-09-03T22:06:31.293Z"
+          }
+        ],
+        "completed": true
+      },
+      {
+        "id": "slot-1788473221125",
+        "startTime": "18:00",
+        "endTime": "20:00",
+        "title": "neues Lerntagebuch gemacht",
+        "attachments": [],
+        "completed": true
+      },
+      {
+        "id": "slot-1788473269212",
+        "startTime": "21:00",
+        "endTime": "00:00",
+        "title": "Lerntagebuch fertig",
+        "content": "",
+        "attachments": [
+          {
+            "id": "att-1788473267434-y7rg7",
+            "name": "Screenshot_2026-09-03_231147.png",
+            "size": 233995,
+            "type": "image/png",
+            "url": "images/Screenshot_2026-09-03_231147.png",
+            "uploadedAt": "2026-09-03T22:07:47.434Z"
+          }
+        ],
+        "completed": true
+      }
+    ],
+    "summary": "",
+    "questionsForInstructor": "",
+    "homeworkStatus": "not_started",
+    "attachments": [],
+    "updatedAt": "2026-09-03T22:07:49.212Z"
+  }
 }

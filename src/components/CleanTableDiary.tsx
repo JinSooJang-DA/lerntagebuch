@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { DayEntry, TimeSlotRow, DiaryAttachment, AppMode } from '../types';
 import { formatDatumDot, parseDateIso, getWeekdayGermanFull } from '../utils/dateUtils';
-import { Plus, Edit2, Trash2, Image as ImageIcon, Copy, Check, Download, ZoomIn, Upload, Code, ShieldCheck } from 'lucide-react';
+import { Plus, Edit2, Trash2, Image as ImageIcon, Copy, Check, Download, ZoomIn, Upload, Code, ShieldCheck, FileJson, Link as LinkIcon, Folder } from 'lucide-react';
+import { getAttachmentSrc, ensureImagesDirPrefix, downloadAttachmentImageFile } from '../utils/imageUtils';
 
 interface CleanTableDiaryProps {
   entry: DayEntry;
@@ -12,6 +13,9 @@ interface CleanTableDiaryProps {
   onDownloadMarkdown: () => void;
   onOpenImportModal?: () => void;
   mode?: AppMode;
+  onDownloadJson?: () => void;
+  onCopyJson?: () => void;
+  isJsonCopied?: boolean;
 }
 
 export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
@@ -22,7 +26,10 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
   isCopied,
   onDownloadMarkdown,
   onOpenImportModal,
-  mode = 'view'
+  mode = 'view',
+  onDownloadJson,
+  onCopyJson,
+  isJsonCopied = false
 }) => {
   const isReadOnly = mode === 'view';
   const dateObj = parseDateIso(entry.date);
@@ -40,6 +47,8 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
   const [formCodeSnippet, setFormCodeSnippet] = useState('');
   const [formAttachments, setFormAttachments] = useState<DiaryAttachment[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [showLinkInput, setShowLinkInput] = useState(false);
+  const [manualImagePath, setManualImagePath] = useState('');
 
   const openAddSlot = () => {
     // Default next slot time
@@ -146,12 +155,14 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
       const reader = new FileReader();
       reader.onload = e => {
         if (e.target?.result) {
+          const safeName = file.name.replace(/\s+/g, '_');
           newAtts.push({
             id: `att-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-            name: file.name,
+            name: safeName,
             size: file.size,
             type: file.type,
             dataUrl: e.target.result as string,
+            url: ensureImagesDirPrefix(safeName),
             uploadedAt: new Date().toISOString()
           });
         }
@@ -172,12 +183,14 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
     const reader = new FileReader();
     reader.onload = e => {
       if (e.target?.result) {
+        const safeName = file.name.replace(/\s+/g, '_');
         const newAtt: DiaryAttachment = {
           id: `att-${Date.now()}`,
-          name: file.name,
+          name: safeName,
           size: file.size,
           type: file.type,
           dataUrl: e.target.result as string,
+          url: ensureImagesDirPrefix(safeName),
           uploadedAt: new Date().toISOString()
         };
 
@@ -199,6 +212,28 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
       }
     };
     reader.readAsDataURL(file);
+  };
+
+  // Link existing image from public/images/ folder
+  const handleLinkManualImage = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!manualImagePath.trim()) return;
+    const path = manualImagePath.trim();
+    const cleanUrl = ensureImagesDirPrefix(path);
+    const fileName = path.split('/').pop() || 'image.png';
+
+    const newAtt: DiaryAttachment = {
+      id: `att-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      name: fileName,
+      size: 0,
+      type: 'image/png',
+      url: cleanUrl,
+      uploadedAt: new Date().toISOString()
+    };
+
+    setFormAttachments(prev => [...prev, newAtt]);
+    setManualImagePath('');
+    setShowLinkInput(false);
   };
 
   const handleRemoveAttachmentFromForm = (attId: string) => {
@@ -243,6 +278,7 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
               </button>
             )}
 
+            {/* Markdown Buttons */}
             <button
               id="btn-copy-markdown-top"
               onClick={onCopyMarkdown}
@@ -271,6 +307,42 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
               <Download className="w-4 h-4 text-slate-600" />
               <span>.md</span>
             </button>
+
+            {/* Direct JSON Buttons: diary-data.json & Copy */}
+            {onDownloadJson && (
+              <div className="flex items-center border border-teal-300 rounded-md bg-teal-50/70 p-0.5 shadow-2xs">
+                <button
+                  id="btn-download-json-top"
+                  onClick={onDownloadJson}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 text-teal-900 hover:bg-white rounded text-xs font-bold transition-colors cursor-pointer"
+                  title="Saubere diary-data.json herunterladen (zum direkten Ersetzen in public/diary-data.json)"
+                >
+                  <FileJson className="w-3.5 h-3.5 text-teal-700" />
+                  <span>diary-data.json</span>
+                </button>
+
+                {onCopyJson && (
+                  <button
+                    id="btn-copy-json-top"
+                    onClick={onCopyJson}
+                    className="inline-flex items-center gap-1 px-2 py-1 text-teal-800 hover:bg-white rounded text-xs font-semibold transition-colors cursor-pointer border-l border-teal-200"
+                    title="JSON-Inhalt kopieren (um ihn direkt in public/diary-data.json einzufügen)"
+                  >
+                    {isJsonCopied ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="text-emerald-700">Kopiert!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5 text-teal-700" />
+                        <span>JSON</span>
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
+            )}
 
             {!isReadOnly && onOpenImportModal && (
               <button
@@ -371,30 +443,53 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
                   {/* Embedded Screenshot / Photo preview inside the cell (just like Screenshot 2!) */}
                   {slot.attachments && slot.attachments.length > 0 && (
                     <div className="pl-4 pt-2 space-y-3">
-                      {slot.attachments.map(att => (
-                        <div
-                          key={att.id}
-                          className="group/img relative rounded-lg border border-slate-300 overflow-hidden bg-slate-950 shadow-sm max-w-3xl cursor-pointer"
-                          onClick={() => onOpenImageViewer(att)}
-                        >
-                          <img
-                            src={att.dataUrl}
-                            alt={att.name}
-                            className="w-full h-auto object-contain block transition-transform duration-200 group-hover/img:scale-[1.005]"
-                          />
-                          
-                          {/* Hover overlay hint */}
-                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-medium text-sm">
-                            <ZoomIn className="w-5 h-5" />
-                            <span>Vollbild anzeigen</span>
-                          </div>
+                      {slot.attachments.map(att => {
+                        const imageSrc = getAttachmentSrc(att);
+                        const displayPath = att.url || `images/${att.name}`;
+                        return (
+                          <div
+                            key={att.id}
+                            className="group/img relative rounded-lg border border-slate-300 overflow-hidden bg-slate-950 shadow-sm max-w-3xl cursor-pointer"
+                            onClick={() => onOpenImageViewer(att)}
+                          >
+                            <img
+                              src={imageSrc}
+                              alt={att.name}
+                              className="w-full h-auto object-contain block transition-transform duration-200 group-hover/img:scale-[1.005]"
+                            />
+                            
+                            {/* Hover overlay hint */}
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white font-medium text-sm">
+                              <ZoomIn className="w-5 h-5" />
+                              <span>Vollbild anzeigen</span>
+                            </div>
 
-                          <div className="px-3 py-1.5 bg-slate-900/90 text-slate-300 text-xs flex justify-between items-center border-t border-slate-800">
-                            <span className="truncate">{att.name}</span>
-                            <span className="text-slate-400">{(att.size / 1024).toFixed(0)} KB</span>
+                            <div className="px-3 py-1.5 bg-slate-900/90 text-slate-300 text-xs flex justify-between items-center border-t border-slate-800">
+                              <span className="truncate flex items-center gap-2">
+                                <span className="font-mono text-teal-300 text-[11px] bg-teal-950 px-1.5 py-0.5 rounded border border-teal-800/80">
+                                  {displayPath}
+                                </span>
+                                <span className="text-slate-400 truncate">{att.name}</span>
+                              </span>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    downloadAttachmentImageFile(att);
+                                  }}
+                                  className="text-slate-400 hover:text-white p-1 rounded hover:bg-slate-800 transition-colors flex items-center gap-1 cursor-pointer"
+                                  title="Bilddatei herunterladen (um sie in public/images/ abzulegen)"
+                                >
+                                  <Download className="w-3.5 h-3.5" />
+                                  <span className="text-[10px] hidden sm:inline">public/images/</span>
+                                </button>
+                                <span className="text-slate-500">{(att.size / 1024).toFixed(0)} KB</span>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
 
@@ -549,13 +644,54 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
 
               {/* Attachments & Screenshots */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
-                  <ImageIcon className="w-3.5 h-3.5" />
-                  <span>Screenshots &amp; Bildanhänge</span>
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                    <ImageIcon className="w-3.5 h-3.5 text-teal-600" />
+                    <span>Screenshots &amp; Bildanhänge</span>
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowLinkInput(!showLinkInput)}
+                    className="text-xs text-teal-700 hover:text-teal-900 font-medium flex items-center gap-1 cursor-pointer"
+                  >
+                    <LinkIcon className="w-3 h-3" />
+                    <span>{showLinkInput ? 'Abbrechen' : 'Bild aus public/images/ verlinken'}</span>
+                  </button>
+                </div>
+
+                {/* Optional direct file linker for files placed in public/images/ */}
+                {showLinkInput && (
+                  <div className="mb-3 p-3 bg-teal-50/70 border border-teal-200 rounded-lg text-xs space-y-2">
+                    <p className="text-teal-900 font-medium">
+                      Bild verlinken, das bereits im <code className="bg-teal-100 px-1 py-0.5 rounded font-mono font-bold">public/images/</code> Ordner liegt:
+                    </p>
+                    <div className="flex gap-2">
+                      <div className="flex-1 flex items-center rounded-md border border-teal-300 bg-white overflow-hidden shadow-2xs">
+                        <span className="px-2.5 py-1.5 bg-slate-100 text-slate-500 font-mono text-[11px] border-r border-slate-200">
+                          public/images/
+                        </span>
+                        <input
+                          type="text"
+                          placeholder="z.B. screenshot1.png oder fotogram.png"
+                          value={manualImagePath}
+                          onChange={e => setManualImagePath(e.target.value)}
+                          className="flex-1 px-2.5 py-1.5 text-slate-800 text-xs font-mono focus:outline-hidden"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={handleLinkManualImage}
+                        className="px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white font-semibold rounded-md transition-colors cursor-pointer"
+                      >
+                        Verlinken
+                      </button>
+                    </div>
+                  </div>
+                )}
 
                 {/* Upload button area */}
-                <div className="border-2 border-dashed border-slate-300 hover:border-slate-400 rounded-lg p-4 text-center cursor-pointer transition-colors bg-slate-50 hover:bg-slate-100">
+                <div className="border-2 border-dashed border-slate-300 hover:border-slate-400 rounded-lg p-3 text-center cursor-pointer transition-colors bg-slate-50 hover:bg-slate-100">
                   <input
                     type="file"
                     accept="image/*"
@@ -565,42 +701,64 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
                     onChange={e => handleFileUpload(e.target.files)}
                   />
                   <label htmlFor="modal-file-upload" className="cursor-pointer block">
-                    <Upload className="w-6 h-6 mx-auto text-slate-500 mb-1" />
-                    <span className="text-sm font-medium text-slate-700 block">
-                      {isUploading ? 'Wird verarbeitet...' : 'Screenshot hochladen oder hierher ziehen'}
+                    <Upload className="w-5 h-5 mx-auto text-slate-500 mb-1" />
+                    <span className="text-xs font-medium text-slate-700 block">
+                      {isUploading ? 'Wird verarbeitet...' : 'Screenshot hochladen (wird automatisch mit images/ verknüpft)'}
                     </span>
-                    <span className="text-xs text-slate-400">PNG, JPG, SVG, WebP</span>
+                    <span className="text-[10px] text-slate-400">PNG, JPG, SVG, WebP</span>
                   </label>
                 </div>
 
                 {/* List of currently attached images in form */}
                 {formAttachments.length > 0 && (
                   <div className="mt-3 space-y-2">
-                    {formAttachments.map(att => (
-                      <div
-                        key={att.id}
-                        className="flex items-center justify-between p-2 border border-slate-200 rounded-md bg-white text-xs"
-                      >
-                        <div className="flex items-center gap-2 min-w-0">
-                          <img
-                            src={att.dataUrl}
-                            alt=""
-                            className="w-10 h-8 object-cover rounded border border-slate-200"
-                          />
-                          <span className="font-medium text-slate-800 truncate max-w-xs">
-                            {att.name}
-                          </span>
-                          <span className="text-slate-400">({(att.size / 1024).toFixed(0)} KB)</span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveAttachmentFromForm(att.id)}
-                          className="text-rose-500 hover:text-rose-700 font-bold p-1 cursor-pointer"
+                    {formAttachments.map(att => {
+                      const imageSrc = getAttachmentSrc(att);
+                      const displayPath = att.url || `images/${att.name}`;
+                      return (
+                        <div
+                          key={att.id}
+                          className="flex items-center justify-between p-2 border border-slate-200 rounded-md bg-white text-xs gap-2"
                         >
-                          Entfernen
-                        </button>
-                      </div>
-                    ))}
+                          <div className="flex items-center gap-2 min-w-0 flex-1">
+                            <img
+                              src={imageSrc}
+                              alt=""
+                              className="w-12 h-9 object-cover rounded border border-slate-200 bg-slate-100"
+                            />
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center gap-1.5">
+                                <span className="font-mono text-teal-700 font-bold text-[11px] bg-teal-50 px-1 py-0.5 rounded border border-teal-200">
+                                  {displayPath}
+                                </span>
+                              </div>
+                              <p className="text-slate-400 text-[10px] truncate mt-0.5">
+                                {att.name} • {(att.size / 1024).toFixed(0)} KB
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2 shrink-0">
+                            <button
+                              type="button"
+                              onClick={() => downloadAttachmentImageFile(att)}
+                              className="px-2 py-1 text-[11px] text-slate-600 hover:text-slate-900 border border-slate-200 hover:bg-slate-50 rounded flex items-center gap-1 transition-colors cursor-pointer"
+                              title="Dieses Bild herunterladen, um es in public/images/ zu speichern"
+                            >
+                              <Download className="w-3 h-3 text-slate-500" />
+                              <span>Für public/images/</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveAttachmentFromForm(att.id)}
+                              className="text-rose-500 hover:text-rose-700 font-bold p-1 cursor-pointer"
+                            >
+                              Entfernen
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </div>

@@ -25,6 +25,7 @@ import { CleanTableDiary } from './components/CleanTableDiary';
 import { GitHubDeployModal } from './components/GitHubDeployModal';
 import { ImageViewerModal } from './components/ImageViewerModal';
 import { DocsJsonImportModal } from './components/DocsJsonImportModal';
+import { sanitizeEntriesForJsonExport } from './utils/imageUtils';
 
 export default function App() {
   const [entries, setEntries] = useState<Record<string, DayEntry>>(() => loadAllEntries());
@@ -35,6 +36,7 @@ export default function App() {
   const [showGitHubModal, setShowGitHubModal] = useState<boolean>(false);
   const [showImportModal, setShowImportModal] = useState<boolean>(false);
   const [copiedDateStr, setCopiedDateStr] = useState<string | null>(null);
+  const [copiedJson, setCopiedJson] = useState<boolean>(false);
 
   // AppMode: 'view' (Dozenten-Ansicht / schreibgeschützt) or 'edit' (Bearbeitungsmodus)
   const [mode, setMode] = useState<AppMode>(() => {
@@ -133,6 +135,22 @@ export default function App() {
     triggerFileDownload(md, `lerntagebuch-${entry.date}.md`, 'text/markdown');
   };
 
+  // Download clean diary-data.json ready for public/diary-data.json
+  const handleDownloadPublicJson = () => {
+    const cleanData = sanitizeEntriesForJsonExport(entries);
+    const jsonStr = JSON.stringify(cleanData, null, 2);
+    triggerFileDownload(jsonStr, 'diary-data.json', 'application/json');
+  };
+
+  // Copy clean diary-data.json to clipboard for direct paste into public/diary-data.json
+  const handleCopyPublicJson = () => {
+    const cleanData = sanitizeEntriesForJsonExport(entries);
+    const jsonStr = JSON.stringify(cleanData, null, 2);
+    navigator.clipboard.writeText(jsonStr);
+    setCopiedJson(true);
+    setTimeout(() => setCopiedJson(false), 2500);
+  };
+
   // Clear all entries completely
   const handleResetToDemo = () => {
     setEntries({});
@@ -169,6 +187,9 @@ export default function App() {
             onDownloadMarkdown={() => handleDownloadMarkdown(currentDayEntry)}
             onOpenImportModal={() => setShowImportModal(true)}
             mode={mode}
+            onDownloadJson={handleDownloadPublicJson}
+            onCopyJson={handleCopyPublicJson}
+            isJsonCopied={copiedJson}
           />
         ) : (
           /* Weekly Overview: All 5 Workdays rendered as clean tables */
@@ -187,6 +208,9 @@ export default function App() {
                     onDownloadMarkdown={() => handleDownloadMarkdown(dayEntry)}
                     onOpenImportModal={() => setShowImportModal(true)}
                     mode={mode}
+                    onDownloadJson={handleDownloadPublicJson}
+                    onCopyJson={handleCopyPublicJson}
+                    isJsonCopied={copiedJson}
                   />
                 </div>
               );

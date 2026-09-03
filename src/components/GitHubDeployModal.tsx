@@ -13,11 +13,13 @@ import {
   FileCode,
   Sparkles,
   Server,
-  Workflow
+  Workflow,
+  FileJson
 } from 'lucide-react';
 import { DayEntry } from '../types';
 import { triggerFileDownload } from '../utils/storage';
 import { parseDiaryJson } from '../utils/diaryParser';
+import { sanitizeEntriesForJsonExport } from '../utils/imageUtils';
 
 interface GitHubDeployModalProps {
   entries: Record<string, DayEntry>;
@@ -34,6 +36,7 @@ export const GitHubDeployModal: React.FC<GitHubDeployModalProps> = ({
 }) => {
   const [copiedCommand, setCopiedCommand] = useState<string | null>(null);
   const [copiedPr, setCopiedPr] = useState(false);
+  const [copiedPublicJson, setCopiedPublicJson] = useState(false);
   const importInputRef = useRef<HTMLInputElement>(null);
 
   const copyText = (text: string, id: string) => {
@@ -48,8 +51,17 @@ export const GitHubDeployModal: React.FC<GitHubDeployModalProps> = ({
   };
 
   const handleExportPublicJson = () => {
-    const jsonStr = JSON.stringify(entries, null, 2);
+    const cleanData = sanitizeEntriesForJsonExport(entries);
+    const jsonStr = JSON.stringify(cleanData, null, 2);
     triggerFileDownload(jsonStr, 'diary-data.json', 'application/json');
+  };
+
+  const handleCopyPublicJson = () => {
+    const cleanData = sanitizeEntriesForJsonExport(entries);
+    const jsonStr = JSON.stringify(cleanData, null, 2);
+    navigator.clipboard.writeText(jsonStr);
+    setCopiedPublicJson(true);
+    setTimeout(() => setCopiedPublicJson(false), 2000);
   };
 
   const handleImportJson = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -279,6 +291,26 @@ ${qList.length > 0 ? qList.join('\n') : '- No pending blocking questions for thi
               >
                 <Download className="w-3.5 h-3.5 text-white" />
                 Export &quot;diary-data.json&quot;
+              </button>
+
+              <button
+                id="btn-copy-public-json"
+                type="button"
+                onClick={handleCopyPublicJson}
+                className="px-3 py-1.5 rounded-lg bg-teal-50 border border-teal-300 hover:bg-teal-100 text-teal-900 text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
+                title="Kopiert sauberen JSON-Inhalt für VS Code in die Zwischenablage"
+              >
+                {copiedPublicJson ? (
+                  <>
+                    <Check className="w-3.5 h-3.5 text-teal-600" />
+                    <span>JSON Kopiert!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5 text-teal-700" />
+                    <span>JSON kopieren</span>
+                  </>
+                )}
               </button>
 
               <button
