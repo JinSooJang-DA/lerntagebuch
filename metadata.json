@@ -1,0 +1,6 @@
+{
+  "name": "Jin Soo Jang's Learning Diary",
+  "description": "A minimalist Monday-to-Friday frontend learning diary featuring fixed morning lecture blocks, custom time-slot logging, file uploads, and a GitHub export/deployment workflow.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
