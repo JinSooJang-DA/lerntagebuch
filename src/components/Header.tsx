@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Github, FileText, Calendar as CalendarIcon, Upload, Clock } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Github, FileText, Calendar as CalendarIcon, Upload, Clock, Eye, Edit3 } from 'lucide-react';
 import { formatDatumDot, getWeekdayGerman, isSameDay, isToday } from '../utils/dateUtils';
-import { ViewScope } from '../types';
+import { ViewScope, AppMode } from '../types';
 import { CalendarPickerPopover } from './CalendarPickerPopover';
 
 interface HeaderProps {
@@ -14,6 +14,8 @@ interface HeaderProps {
   onToggleViewScope: (scope: ViewScope) => void;
   onOpenGitHubModal: () => void;
   entriesDates?: Set<string>;
+  mode: AppMode;
+  onToggleMode: (mode: AppMode) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -25,7 +27,9 @@ export const Header: React.FC<HeaderProps> = ({
   viewScope,
   onToggleViewScope,
   onOpenGitHubModal,
-  entriesDates
+  entriesDates,
+  mode,
+  onToggleMode
 }) => {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
@@ -150,8 +154,41 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
         </div>
 
-        {/* Right: Scope Switcher & GitHub Button */}
-        <div className="flex items-center gap-2">
+        {/* Right: Mode Switcher, Scope Switcher & GitHub Button */}
+        <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+          {/* Mode Switcher: View (Dozenten-Ansicht) vs Edit */}
+          <div className="flex items-center border border-slate-200 rounded-md bg-slate-100 p-0.5 text-xs font-medium">
+            <button
+              id="btn-mode-view"
+              type="button"
+              onClick={() => onToggleMode('view')}
+              className={`px-2 py-1 rounded flex items-center gap-1 transition-colors cursor-pointer ${
+                mode === 'view'
+                  ? 'bg-white text-teal-800 font-bold shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+              title="Dozenten-Ansicht: Schreibgeschützter offizieller Bericht"
+            >
+              <Eye className="w-3.5 h-3.5 text-teal-600" />
+              <span className="hidden sm:inline">Dozenten-Ansicht</span>
+              <span className="sm:hidden">Ansicht</span>
+            </button>
+            <button
+              id="btn-mode-edit"
+              type="button"
+              onClick={() => onToggleMode('edit')}
+              className={`px-2 py-1 rounded flex items-center gap-1 transition-colors cursor-pointer ${
+                mode === 'edit'
+                  ? 'bg-white text-slate-900 font-bold shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+              title="Bearbeitungsmodus: Einträge bearbeiten & hinzufügen"
+            >
+              <Edit3 className="w-3.5 h-3.5" />
+              <span>Bearbeiten</span>
+            </button>
+          </div>
+
           {/* Single Day vs Whole Week Table */}
           <div className="flex items-center border border-slate-200 rounded-md bg-slate-100 p-0.5 text-xs font-medium">
             <button

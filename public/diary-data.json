@@ -1,0 +1,29 @@
+{
+  "date": "2026-09-03",
+  "entries": [
+    {
+      "time": "09:00 – 10:30",
+      "topic": "Live Meeting with Marko",
+      "notes": "Grundlage von JS",
+      "attachment": "marko-lesson.png"
+    },
+    {
+      "time": "10:30 – 14:30",
+      "topic": "Fotogram Project gemacht",
+      "notes": "",
+      "attachment": ""
+    },
+    {
+      "time": "15:30 – 17:30",
+      "topic": "Todo List with JS",
+      "notes": "als Übung versuchte eine Todoliste zu machen",
+      "attachment": "Screenshot 2026-09-03 222538.png"
+    },
+    {
+      "time": "20:00 – 23:30",
+      "topic": "Neues Lerntagebuch mit AI Studio gemacht",
+      "notes": "",
+      "attachment": "Screenshot 2026-09-03 231147.png"
+    }
+  ]
+}

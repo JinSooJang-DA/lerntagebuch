@@ -108,6 +108,29 @@ export function saveAllEntries(entries: Record<string, DayEntry>): void {
   }
 }
 
+/**
+ * Attempts to load committed diary-data.json from the public folder.
+ * This ensures that on GitHub Pages, visitors (like instructors) automatically see
+ * the committed diary entries without needing anything in their local storage.
+ */
+export async function fetchCommittedDiaryData(): Promise<Record<string, DayEntry> | null> {
+  try {
+    const res = await fetch('./diary-data.json', { cache: 'no-cache' });
+    if (!res.ok) return null;
+    const json = await res.json();
+    if (json && typeof json === 'object' && Object.keys(json).length > 0) {
+      const normalized: Record<string, DayEntry> = {};
+      Object.keys(json).forEach(date => {
+        normalized[date] = normalizeEntry(json[date], date);
+      });
+      return normalized;
+    }
+  } catch (e) {
+    // If not reachable (e.g. offline or empty), ignore gracefully
+  }
+  return null;
+}
+
 export function getOrCreateEntry(entries: Record<string, DayEntry>, dateStr: string): DayEntry {
   if (entries[dateStr]) {
     return normalizeEntry(entries[dateStr], dateStr);

@@ -3,6 +3,7 @@ import {
   DayEntry,
   DiaryAttachment,
   ViewScope,
+  AppMode,
 } from './types';
 import {
   getWorkdaysOfWeek,
@@ -16,6 +17,7 @@ import {
   generateDayMarkdown,
   generateWeeklyMarkdown,
   triggerFileDownload,
+  fetchCommittedDiaryData,
 } from './utils/storage';
 import { INITIAL_ENTRIES } from './data/initialEntries';
 import { Header } from './components/Header';
@@ -34,10 +36,50 @@ export default function App() {
   const [showImportModal, setShowImportModal] = useState<boolean>(false);
   const [copiedDateStr, setCopiedDateStr] = useState<string | null>(null);
 
+  // AppMode: 'view' (Dozenten-Ansicht / schreibgeschützt) or 'edit' (Bearbeitungsmodus)
+  const [mode, setMode] = useState<AppMode>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const paramMode = params.get('mode');
+      if (paramMode === 'edit' || paramMode === 'view') {
+        return paramMode;
+      }
+      const saved = localStorage.getItem('jinsoo_diary_app_mode');
+      if (saved === 'edit' || saved === 'view') {
+        return saved as AppMode;
+      }
+      if (window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1')) {
+        return 'edit';
+      }
+    }
+    return 'view';
+  });
+
+  const handleToggleMode = (newMode: AppMode) => {
+    setMode(newMode);
+    try {
+      localStorage.setItem('jinsoo_diary_app_mode', newMode);
+    } catch (_) {}
+  };
+
   // Sync to localStorage
   useEffect(() => {
     saveAllEntries(entries);
   }, [entries]);
+
+  // Load committed diary-data.json if local storage is empty
+  useEffect(() => {
+    fetchCommittedDiaryData().then(committedEntries => {
+      if (committedEntries && Object.keys(committedEntries).length > 0) {
+        setEntries(current => {
+          if (Object.keys(current).length === 0) {
+            return committedEntries;
+          }
+          return current;
+        });
+      }
+    });
+  }, []);
 
   // Only highlight calendar dates that actually contain time slots
   const entriesDates = useMemo(() => {
@@ -110,6 +152,8 @@ export default function App() {
         onToggleViewScope={(scope) => setViewScope(scope)}
         onOpenGitHubModal={() => setShowGitHubModal(true)}
         entriesDates={entriesDates}
+        mode={mode}
+        onToggleMode={handleToggleMode}
       />
 
       {/* Main Content Area */}
@@ -124,6 +168,7 @@ export default function App() {
             isCopied={copiedDateStr === currentDayEntry.date}
             onDownloadMarkdown={() => handleDownloadMarkdown(currentDayEntry)}
             onOpenImportModal={() => setShowImportModal(true)}
+            mode={mode}
           />
         ) : (
           /* Weekly Overview: All 5 Workdays rendered as clean tables */
@@ -141,6 +186,7 @@ export default function App() {
                     isCopied={copiedDateStr === dayEntry.date}
                     onDownloadMarkdown={() => handleDownloadMarkdown(dayEntry)}
                     onOpenImportModal={() => setShowImportModal(true)}
+                    mode={mode}
                   />
                 </div>
               );

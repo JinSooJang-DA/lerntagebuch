@@ -47,6 +47,11 @@ export const GitHubDeployModal: React.FC<GitHubDeployModalProps> = ({
     triggerFileDownload(jsonStr, 'jinsoo-learning-diary-data.json', 'application/json');
   };
 
+  const handleExportPublicJson = () => {
+    const jsonStr = JSON.stringify(entries, null, 2);
+    triggerFileDownload(jsonStr, 'diary-data.json', 'application/json');
+  };
+
   const handleImportJson = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -260,11 +265,22 @@ ${qList.length > 0 ? qList.join('\n') : '- No pending blocking questions for thi
               <Download className="w-3.5 h-3.5 text-zinc-600" />
               Backup &amp; Sync Local Diary Data
             </h4>
-            <p className="text-xs text-zinc-600">
-              Export your diary state as a JSON file to commit it to the repository or restore on another machine.
+            <p className="text-xs text-zinc-600 leading-relaxed">
+              Export your diary state as <code className="text-zinc-800 font-mono bg-zinc-200/60 px-1 py-0.5 rounded">public/diary-data.json</code> to commit it to the repository. The deployed GitHub Pages site automatically displays these entries to visitors!
             </p>
 
             <div className="flex flex-wrap items-center gap-2 pt-1">
+              <button
+                id="btn-export-public-json"
+                type="button"
+                onClick={handleExportPublicJson}
+                className="px-3 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
+                title="Saves directly as diary-data.json for your public/ folder"
+              >
+                <Download className="w-3.5 h-3.5 text-white" />
+                Export &quot;diary-data.json&quot;
+              </button>
+
               <button
                 id="btn-export-json"
                 type="button"
@@ -272,7 +288,7 @@ ${qList.length > 0 ? qList.join('\n') : '- No pending blocking questions for thi
                 className="px-3 py-1.5 rounded-lg bg-white border border-zinc-300 hover:bg-zinc-100 text-zinc-800 text-xs font-medium flex items-center gap-1.5 transition-colors shadow-2xs"
               >
                 <Download className="w-3.5 h-3.5 text-zinc-500" />
-                Export Data (JSON)
+                Export Backup (JSON)
               </button>
 
               <input
@@ -305,6 +321,36 @@ ${qList.length > 0 ? qList.join('\n') : '- No pending blocking questions for thi
               >
                 Alle Einträge leeren
               </button>
+            </div>
+          </div>
+
+          {/* 5. Security & Permission Architecture FAQ */}
+          <div className="p-4 rounded-xl border border-teal-200 bg-teal-50/50 space-y-2.5">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-teal-900 flex items-center gap-1.5">
+              <span className="text-sm">🔒</span>
+              Sicherheit &amp; Dozenten-Berechtigung (FAQ)
+            </h4>
+            <div className="space-y-2 text-xs text-teal-950 leading-relaxed">
+              <div className="bg-white/80 p-3 rounded-lg border border-teal-100 shadow-2xs">
+                <p className="font-bold text-teal-900 mb-1">
+                  Q: 강사(Dozent)가 웹페이지에서 내용을 수정하면 내 원본 일기가 바뀌나요?
+                </p>
+                <p className="text-teal-800">
+                  <strong>절대 바뀌지 않습니다.</strong> GitHub Pages는 정적 웹사이트(Static Web App)입니다. 데이터베이스가 없으므로 방문자나 강사가 브라우저 화면에서 버튼을 누르고 내용을 편집하더라도 그 변경 사항은 오직 <em>방문자 본인 컴퓨터의 임시 브라우저 메모리에만</em> 존재합니다. 새로고침을 누르면 GitHub에 푸시된 원본 데이터로 즉시 되돌아갑니다.
+                </p>
+              </div>
+
+              <div className="bg-white/80 p-3 rounded-lg border border-teal-100 shadow-2xs">
+                <p className="font-bold text-teal-900 mb-1">
+                  Q: 가장 이상적이고 안전한 운영 방식(권장 워크플로우)은?
+                </p>
+                <ol className="list-decimal list-inside space-y-1 text-teal-800 pl-1">
+                  <li><strong>로컬에서 편집:</strong> 내 컴퓨터 로컬 환경에서 일기를 작성/수정합니다.</li>
+                  <li><strong>JSON 저장:</strong> 위의 <code className="bg-teal-100 px-1 py-0.5 rounded text-teal-900 font-mono">Export diary-data.json</code>을 클릭해 프로젝트의 <code className="bg-teal-100 px-1 py-0.5 rounded text-teal-900 font-mono">public/diary-data.json</code>에 덮어씁니다.</li>
+                  <li><strong>깃 푸시:</strong> <code className="bg-teal-100 px-1 py-0.5 rounded text-teal-900 font-mono">git add . &amp;&amp; git commit -m &quot;update diary&quot; &amp;&amp; git push</code> 명령어로 GitHub에 전송합니다.</li>
+                  <li><strong>강사 확인:</strong> 강사는 배포된 주소에 접속하면 자동으로 <strong>Dozenten-Ansicht (읽기 전용 보고서)</strong>로 정돈된 일기를 확인하며, 편집 버튼 없이 열람하게 됩니다.</li>
+                </ol>
+              </div>
             </div>
           </div>
         </div>

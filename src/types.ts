@@ -46,3 +46,4 @@ export interface DayEntry {
 }
 
 export type ViewScope = 'single' | 'weekly';
+export type AppMode = 'view' | 'edit';

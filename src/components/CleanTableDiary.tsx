@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { DayEntry, TimeSlotRow, DiaryAttachment } from '../types';
+import { DayEntry, TimeSlotRow, DiaryAttachment, AppMode } from '../types';
 import { formatDatumDot, parseDateIso, getWeekdayGermanFull } from '../utils/dateUtils';
-import { Plus, Edit2, Trash2, Image as ImageIcon, Copy, Check, Download, ZoomIn, Upload, Code } from 'lucide-react';
+import { Plus, Edit2, Trash2, Image as ImageIcon, Copy, Check, Download, ZoomIn, Upload, Code, ShieldCheck } from 'lucide-react';
 
 interface CleanTableDiaryProps {
   entry: DayEntry;
@@ -11,6 +11,7 @@ interface CleanTableDiaryProps {
   isCopied: boolean;
   onDownloadMarkdown: () => void;
   onOpenImportModal?: () => void;
+  mode?: AppMode;
 }
 
 export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
@@ -20,8 +21,10 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
   onCopyMarkdown,
   isCopied,
   onDownloadMarkdown,
-  onOpenImportModal
+  onOpenImportModal,
+  mode = 'view'
 }) => {
+  const isReadOnly = mode === 'view';
   const dateObj = parseDateIso(entry.date);
   const formattedDate = formatDatumDot(dateObj);
   const weekdayGerman = getWeekdayGermanFull(dateObj);
@@ -222,14 +225,23 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
 
           {/* Quick Action Tools for Local and Instructor */}
           <div className="flex items-center gap-2">
-            <button
-              id="btn-add-slot-top"
-              onClick={openAddSlot}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded-md text-sm font-medium transition-colors cursor-pointer shadow-xs"
-            >
-              <Plus className="w-4 h-4" />
-              <span>Zeitraum hinzufügen</span>
-            </button>
+            {isReadOnly && (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 text-slate-700 border border-slate-300 rounded-md text-xs font-semibold">
+                <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
+                <span>Dozenten-Ansicht</span>
+              </div>
+            )}
+
+            {!isReadOnly && (
+              <button
+                id="btn-add-slot-top"
+                onClick={openAddSlot}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white rounded-md text-sm font-medium transition-colors cursor-pointer shadow-xs"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Zeitraum hinzufügen</span>
+              </button>
+            )}
 
             <button
               id="btn-copy-markdown-top"
@@ -260,7 +272,7 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
               <span>.md</span>
             </button>
 
-            {onOpenImportModal && (
+            {!isReadOnly && onOpenImportModal && (
               <button
                 id="btn-import-clean-table"
                 onClick={onOpenImportModal}
@@ -305,24 +317,26 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
                     </span>
 
                     {/* Quick row management buttons */}
-                    <div className="mt-2 flex items-center gap-2 opacity-70 group-hover:opacity-100 transition-opacity">
-                      <button
-                        onClick={() => openEditSlot(slot)}
-                        className="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1 cursor-pointer p-1 rounded hover:bg-slate-200/60"
-                        title="Bearbeiten"
-                      >
-                        <Edit2 className="w-3.5 h-3.5" />
-                        <span>Bearbeiten</span>
-                      </button>
+                    {!isReadOnly && (
+                      <div className="mt-2 flex items-center gap-2 opacity-70 group-hover:opacity-100 transition-opacity">
+                        <button
+                          onClick={() => openEditSlot(slot)}
+                          className="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1 cursor-pointer p-1 rounded hover:bg-slate-200/60"
+                          title="Bearbeiten"
+                        >
+                          <Edit2 className="w-3.5 h-3.5" />
+                          <span>Bearbeiten</span>
+                        </button>
 
-                      <button
-                        onClick={() => handleDeleteSlot(slot.id)}
-                        className="text-xs text-slate-400 hover:text-rose-600 flex items-center gap-1 cursor-pointer p-1 rounded hover:bg-rose-50"
-                        title="Löschen"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
+                        <button
+                          onClick={() => handleDeleteSlot(slot.id)}
+                          className="text-xs text-slate-400 hover:text-rose-600 flex items-center gap-1 cursor-pointer p-1 rounded hover:bg-rose-50"
+                          title="Löschen"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </td>
 
@@ -385,18 +399,20 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
                   )}
 
                   {/* Quick file attach button for this slot */}
-                  <div className="pl-4 pt-1">
-                    <label className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-teal-700 cursor-pointer transition-colors p-1 rounded hover:bg-slate-100">
-                      <ImageIcon className="w-3.5 h-3.5" />
-                      <span>Screenshot / Bild anhängen</span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={e => handleDirectUploadToSlot(slot.id, e.target.files)}
-                      />
-                    </label>
-                  </div>
+                  {!isReadOnly && (
+                    <div className="pl-4 pt-1">
+                      <label className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-teal-700 cursor-pointer transition-colors p-1 rounded hover:bg-slate-100">
+                        <ImageIcon className="w-3.5 h-3.5" />
+                        <span>Screenshot / Bild anhängen</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={e => handleDirectUploadToSlot(slot.id, e.target.files)}
+                        />
+                      </label>
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}
@@ -406,13 +422,15 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
               <tr>
                 <td colSpan={2} className="py-12 text-center text-slate-500">
                   <p className="text-base mb-3">Keine Zeiteinträge für diesen Tag vorhanden.</p>
-                  <button
-                    onClick={openAddSlot}
-                    className="inline-flex items-center gap-1 px-3.5 py-2 bg-slate-800 text-white rounded-md text-sm font-medium hover:bg-slate-900 cursor-pointer"
-                  >
-                    <Plus className="w-4 h-4" />
-                    <span>Ersten Zeitraum hinzufügen</span>
-                  </button>
+                  {!isReadOnly && (
+                    <button
+                      onClick={openAddSlot}
+                      className="inline-flex items-center gap-1 px-3.5 py-2 bg-slate-800 text-white rounded-md text-sm font-medium hover:bg-slate-900 cursor-pointer"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>Ersten Zeitraum hinzufügen</span>
+                    </button>
+                  )}
                 </td>
               </tr>
             )}
@@ -421,23 +439,25 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
       </div>
 
       {/* Bottom Button to Add Next Row */}
-      <div className="mt-4 flex justify-between items-center">
-        <button
-          id="btn-add-slot-bottom"
-          onClick={openAddSlot}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 rounded-md text-sm font-semibold transition-colors cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Neuen Zeitraum hinzufügen</span>
-        </button>
+      {!isReadOnly && (
+        <div className="mt-4 flex justify-between items-center">
+          <button
+            id="btn-add-slot-bottom"
+            onClick={openAddSlot}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 rounded-md text-sm font-semibold transition-colors cursor-pointer"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Neuen Zeitraum hinzufügen</span>
+          </button>
 
-        <span className="text-xs text-slate-500">
-          Tipp: Screenshots können direkt per Klick oder im Bearbeiten-Dialog angehängt werden. 🐈‍⬛🐾
-        </span>
-      </div>
+          <span className="text-xs text-slate-500">
+            Tipp: Screenshots können direkt per Klick oder im Bearbeiten-Dialog angehängt werden. 🐈‍⬛🐾
+          </span>
+        </div>
+      )}
 
       {/* MODAL FOR ADDING / EDITING A TIME SLOT */}
-      {(isAddingSlot || editingSlot) && (
+      {!isReadOnly && (isAddingSlot || editingSlot) && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-lg shadow-xl border border-slate-200 max-w-xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
             {/* Modal Header */}
