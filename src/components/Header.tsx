@@ -44,13 +44,11 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="border-b border-slate-200 bg-white/95 backdrop-blur-xs sticky top-0 z-20 shadow-2xs">
       <div className="max-w-5xl mx-auto px-4 py-3 flex flex-col md:flex-row md:items-center justify-between gap-3">
-        {/* Left: Brand & Student Name */}
+        {/* Left: Application Title */}
         <div className="flex items-center gap-3">
           <div>
-            <h1 className="text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
-              <span>Jin Soo Jang</span>
-              <span className="text-slate-400 font-normal">/</span>
-              <span className="text-teal-700 font-semibold">Lerntagebuch</span>
+            <h1 className="text-lg font-bold text-slate-900 tracking-tight">
+              Jin Soo Jang&apos;s Lerntagebuch
             </h1>
             <p className="text-xs text-slate-500 font-medium">
               Frontend Development • Montag – Freitag

@@ -1,11 +1,13 @@
 import { DayEntry, TimeSlotRow } from '../types';
 import { INITIAL_ENTRIES, createDefaultDayEntry } from '../data/initialEntries';
 import { formatDatumDot, parseDateIso } from './dateUtils';
+import { extractSlotTitleAndContent, normalizeTimeString } from './diaryParser';
 
-const STORAGE_KEY = 'jinsoo_learning_diary_table_v2';
+const STORAGE_KEY = 'jinsoo_learning_diary_clean_v1';
 
 /**
- * Normalizes an entry so it strictly has clean `timeSlots`
+ * Normalizes an entry so it strictly has clean `timeSlots`,
+ * ensuring any generic "Study Session" titles are resolved to their true themes.
  */
 export function normalizeEntry(raw: any, dateStr: string): DayEntry {
   if (!raw) return createDefaultDayEntry(dateStr);
@@ -13,28 +15,45 @@ export function normalizeEntry(raw: any, dateStr: string): DayEntry {
   let timeSlots: TimeSlotRow[] = [];
 
   if (Array.isArray(raw.timeSlots) && raw.timeSlots.length > 0) {
-    timeSlots = raw.timeSlots;
+    timeSlots = raw.timeSlots.map((s: any) => {
+      const extracted = extractSlotTitleAndContent(s);
+      return {
+        id: s.id || `slot-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        startTime: normalizeTimeString(s.startTime || s.start || '09:00'),
+        endTime: normalizeTimeString(s.endTime || s.end || '10:30'),
+        title: extracted.title,
+        content: extracted.content,
+        codeSnippet: s.codeSnippet || undefined,
+        attachments: s.attachments || [],
+        completed: s.completed ?? true
+      };
+    });
   } else {
-    // Migrate legacy fixedLecture and customSlots if present
-    if (raw.fixedLecture && raw.fixedLecture.topic) {
+    // Check if legacy fixedLecture or customSlots are present
+    if (raw.fixedLecture && (raw.fixedLecture.topic || raw.fixedLecture.thema || raw.fixedLecture.theme)) {
+      const extracted = extractSlotTitleAndContent({
+        theme: raw.fixedLecture.topic || raw.fixedLecture.thema || raw.fixedLecture.theme,
+        content: raw.fixedLecture.instructorNotes || (raw.fixedLecture.keyConcepts ? raw.fixedLecture.keyConcepts.join(', ') : '')
+      });
       timeSlots.push({
         id: `slot-migrated-lecture`,
         startTime: '09:00',
-        endTime: '10:30',
-        title: raw.fixedLecture.topic || 'Live-Calls',
-        content: raw.fixedLecture.instructorNotes || (raw.fixedLecture.keyConcepts ? raw.fixedLecture.keyConcepts.join(', ') : ''),
+        endTime: '10:20',
+        title: extracted.title,
+        content: extracted.content,
         completed: raw.fixedLecture.completed ?? true
       });
     }
 
     if (Array.isArray(raw.customSlots)) {
       raw.customSlots.forEach((cs: any, idx: number) => {
+        const extracted = extractSlotTitleAndContent(cs);
         timeSlots.push({
           id: cs.id || `slot-migrated-${idx}`,
-          startTime: cs.startTime || '11:00',
-          endTime: cs.endTime || '12:30',
-          title: cs.title || 'Study Session',
-          content: cs.content || '',
+          startTime: normalizeTimeString(cs.startTime || '11:00'),
+          endTime: normalizeTimeString(cs.endTime || '12:30'),
+          title: extracted.title,
+          content: extracted.content,
           codeSnippet: cs.codeSnippet,
           completed: cs.completed ?? true,
           attachments: cs.attachments || []
@@ -43,10 +62,8 @@ export function normalizeEntry(raw: any, dateStr: string): DayEntry {
     }
   }
 
-  // Ensure default fallback if still empty
-  if (timeSlots.length === 0) {
-    timeSlots = createDefaultDayEntry(dateStr).timeSlots;
-  }
+  // Sort slots by start time
+  timeSlots.sort((a, b) => a.startTime.localeCompare(b.startTime));
 
   return {
     date: dateStr,
@@ -61,10 +78,15 @@ export function normalizeEntry(raw: any, dateStr: string): DayEntry {
 
 export function loadAllEntries(): Record<string, DayEntry> {
   try {
+    // Purge old demo storage caches to ensure all calendars are empty
+    ['jinsoo_learning_diary_table_v2', 'jinsoo_learning_diary_table_v1'].forEach(oldKey => {
+      try { localStorage.removeItem(oldKey); } catch (_) {}
+    });
+
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
-      const combined: Record<string, DayEntry> = { ...INITIAL_ENTRIES };
+      const combined: Record<string, DayEntry> = {};
       Object.keys(parsed).forEach(date => {
         combined[date] = normalizeEntry(parsed[date], date);
       });
@@ -74,12 +96,8 @@ export function loadAllEntries(): Record<string, DayEntry> {
     console.error('Error loading diary entries from localStorage', err);
   }
 
-  // First time or error: load initial entries normalized
-  const combined: Record<string, DayEntry> = {};
-  Object.keys(INITIAL_ENTRIES).forEach(date => {
-    combined[date] = normalizeEntry(INITIAL_ENTRIES[date], date);
-  });
-  return combined;
+  // Initial clean empty slate
+  return {};
 }
 
 export function saveAllEntries(entries: Record<string, DayEntry>): void {

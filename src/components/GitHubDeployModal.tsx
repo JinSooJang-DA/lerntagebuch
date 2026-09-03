@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { DayEntry } from '../types';
 import { triggerFileDownload } from '../utils/storage';
+import { parseDiaryJson } from '../utils/diaryParser';
 
 interface GitHubDeployModalProps {
   entries: Record<string, DayEntry>;
@@ -53,15 +54,16 @@ export const GitHubDeployModal: React.FC<GitHubDeployModalProps> = ({
     const reader = new FileReader();
     reader.onload = (event) => {
       try {
-        const parsed = JSON.parse(event.target?.result as string);
-        if (typeof parsed === 'object' && parsed !== null) {
-          onImportEntries(parsed);
-          alert('Diary data successfully imported!');
+        const text = event.target?.result as string;
+        const result = parseDiaryJson(text);
+        if (result.success && result.detectedDaysCount > 0) {
+          onImportEntries(result.entries);
+          alert(`${result.detectedDaysCount} Tagebuch-Tage (${result.totalSlotsCount} Einträge) erfolgreich importiert!`);
         } else {
-          alert('Invalid JSON structure.');
+          alert('Keine gültigen Tagebucheinträge im JSON gefunden.');
         }
       } catch (err) {
-        alert('Failed to parse JSON file.');
+        alert('Fehler beim Parsen der JSON-Datei.');
       }
     };
     reader.readAsText(file);
@@ -295,13 +297,13 @@ ${qList.length > 0 ? qList.join('\n') : '- No pending blocking questions for thi
                 id="btn-reset-demo"
                 type="button"
                 onClick={() => {
-                  if (confirm('Reset to initial sample frontend learning entries?')) {
+                  if (confirm('Möchtest du wirklich alle Einträge im Lerntagebuch leeren?')) {
                     onResetToDemo();
                   }
                 }}
-                className="text-xs text-zinc-500 hover:text-zinc-800 underline ml-auto py-1"
+                className="text-xs text-rose-600 hover:text-rose-800 underline ml-auto py-1 cursor-pointer"
               >
-                Reset to Sample Week
+                Alle Einträge leeren
               </button>
             </div>
           </div>

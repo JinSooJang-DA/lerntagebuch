@@ -207,7 +207,7 @@ export const CleanTableDiary: React.FC<CleanTableDiaryProps> = ({
       {/* Title & Date Bar matching Screenshot 2 */}
       <div className="text-center mb-8">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight mb-3">
-          Lerntagebuch
+          Jin Soo Jang&apos;s Lerntagebuch
         </h1>
         
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4">

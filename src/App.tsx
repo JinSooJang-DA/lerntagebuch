@@ -26,8 +26,8 @@ import { DocsJsonImportModal } from './components/DocsJsonImportModal';
 
 export default function App() {
   const [entries, setEntries] = useState<Record<string, DayEntry>>(() => loadAllEntries());
-  // Default to Wednesday 2026-09-02 matching Screenshot 2
-  const [selectedDate, setSelectedDate] = useState<Date>(() => new Date('2026-09-02T12:00:00'));
+  // Default to today's date
+  const [selectedDate, setSelectedDate] = useState<Date>(() => new Date());
   const [viewScope, setViewScope] = useState<ViewScope>('single');
   const [previewAttachment, setPreviewAttachment] = useState<DiaryAttachment | null>(null);
   const [showGitHubModal, setShowGitHubModal] = useState<boolean>(false);
@@ -39,7 +39,17 @@ export default function App() {
     saveAllEntries(entries);
   }, [entries]);
 
-  const entriesDates = useMemo(() => new Set(Object.keys(entries)), [entries]);
+  // Only highlight calendar dates that actually contain time slots
+  const entriesDates = useMemo(() => {
+    const activeDates = new Set<string>();
+    Object.keys(entries).forEach((d) => {
+      const entry = entries[d];
+      if (entry && Array.isArray(entry.timeSlots) && entry.timeSlots.length > 0) {
+        activeDates.add(d);
+      }
+    });
+    return activeDates;
+  }, [entries]);
 
   // Workdays for the selected week (Mon - Fri)
   const workdaysOfWeek = getWorkdaysOfWeek(selectedDate);
@@ -81,10 +91,10 @@ export default function App() {
     triggerFileDownload(md, `lerntagebuch-${entry.date}.md`, 'text/markdown');
   };
 
-  // Reset to initial demo
+  // Clear all entries completely
   const handleResetToDemo = () => {
-    setEntries(INITIAL_ENTRIES);
-    saveAllEntries(INITIAL_ENTRIES);
+    setEntries({});
+    saveAllEntries({});
   };
 
   return (
@@ -143,9 +153,9 @@ export default function App() {
       <footer className="border-t border-slate-200 bg-white py-6">
         <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-800">Lerntagebuch</span>
+            <span className="font-bold text-slate-800">Jin Soo Jang&apos;s Lerntagebuch</span>
             <span>•</span>
-            <span>Jin Soo Jang (Frontend Entwickler)</span>
+            <span>Frontend Entwickler</span>
             <span>•</span>
             <span className="text-teal-700 font-semibold">Citycat Records 🐈‍⬛🐾</span>
           </div>

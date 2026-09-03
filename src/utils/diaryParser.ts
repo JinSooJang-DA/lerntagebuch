@@ -57,6 +57,154 @@ export function normalizeTimeString(t: string): string {
   return `${hours}:${minutes}`;
 }
 
+/**
+ * Checks if a title is a generic placeholder rather than an actual learning theme.
+ */
+export function isGenericTitle(t?: string | null): boolean {
+  if (!t) return true;
+  const clean = String(t).trim().toLowerCase().replace(/[-_\s]+/g, ' ');
+  return (
+    clean === '' ||
+    clean === 'study session' ||
+    clean === 'study sessions' ||
+    clean === 'studysession' ||
+    clean === 'coding slot' ||
+    clean === 'coding slots' ||
+    clean === 'lerneinheit' ||
+    clean === 'lerneinheiten' ||
+    clean === 'session' ||
+    clean === 'slot' ||
+    clean === 'study' ||
+    clean === 'zeitraum' ||
+    clean === 'thema' ||
+    clean === 'thema & notizen' ||
+    clean === 'theme' ||
+    clean === 'unbenannt' ||
+    clean === 'untitled'
+  );
+}
+
+/**
+ * Robustly extracts the real learning theme (Thema -> title) and notes/description (content)
+ * from any slot, task, or activity object. Guarantees that the original theme always enters
+ * the primary `title` position instead of being replaced by "Study Session".
+ */
+export function extractSlotTitleAndContent(rawSlot: any): { title: string; content?: string } {
+  if (!rawSlot || typeof rawSlot !== 'object') {
+    return { title: 'Lerneinheit' };
+  }
+
+  // 1. First priority: Check explicit theme/topic properties in the JSON
+  const explicitThemeCandidate =
+    rawSlot.theme ??
+    rawSlot.thema ??
+    rawSlot.topic ??
+    rawSlot.subject ??
+    rawSlot.titel ??
+    rawSlot.headline ??
+    rawSlot.task ??
+    rawSlot.activity ??
+    (!isGenericTitle(rawSlot.title) ? rawSlot.title : undefined) ??
+    (!isGenericTitle(rawSlot.name) ? rawSlot.name : undefined);
+
+  // Check available notes/description/content fields in the JSON
+  const rawContent =
+    rawSlot.content ??
+    rawSlot.notes ??
+    rawSlot.notizen ??
+    rawSlot.description ??
+    rawSlot.beschreibung ??
+    rawSlot.desc ??
+    rawSlot.inhalt ??
+    rawSlot.details ??
+    '';
+
+  const contentStr = typeof rawContent === 'string' ? rawContent.trim() : String(rawContent || '').trim();
+
+  // If an explicit theme candidate is present and is not a generic placeholder
+  if (explicitThemeCandidate && !isGenericTitle(String(explicitThemeCandidate))) {
+    const cleanTitle = String(explicitThemeCandidate)
+      .trim()
+      .replace(/^[•*\-\s]+/, '')
+      .replace(/\*\*/g, '');
+
+    let finalContent: string | undefined = contentStr || undefined;
+    // If the content just repeats the exact title, don't duplicate it
+    if (finalContent && finalContent.replace(/^[•*\-\s]+/, '').replace(/\*\*/g, '').trim() === cleanTitle) {
+      finalContent = undefined;
+    }
+
+    return {
+      title: cleanTitle || 'Lerneinheit',
+      content: finalContent
+    };
+  }
+
+  // 2. Second priority: When title is generic ("Study Session") or missing,
+  // the theme was written inside the notes/content/description field!
+  if (contentStr) {
+    // Case 2a: Pattern like "Thema: Fotogram Project\nNotizen: Grid Layout"
+    const themaPrefixMatch = contentStr.match(
+      /^(?:thema|theme)\s*:\s*([^\n]+)(?:\n+(?:notizen|notes|beschreibung|description|inhalt)\s*:\s*([\s\S]*))?$/i
+    );
+    if (themaPrefixMatch) {
+      return {
+        title: themaPrefixMatch[1].trim().replace(/^[•*\-\s]+/, '').replace(/\*\*/g, ''),
+        content: themaPrefixMatch[2]?.trim() || undefined
+      };
+    }
+
+    // Case 2b: Bullet with colon or separator: "• Fotogram Project : Responsive Grid..."
+    const bulletColonMatch = contentStr.match(
+      /^[•*\-\s]*(?:\*\*)?([^*\n:–—-]+)(?:\*\*)?\s*(?::|[-–—]\s)([\s\S]*)$/
+    );
+    if (bulletColonMatch) {
+      const extractedTitle = bulletColonMatch[1].trim().replace(/\*\*/g, '');
+      const remainder = bulletColonMatch[2].trim();
+      if (extractedTitle && !isGenericTitle(extractedTitle)) {
+        return {
+          title: extractedTitle,
+          content: remainder || undefined
+        };
+      }
+    }
+
+    // Case 2c: Multi-line text: First line is the Theme, remaining lines are Notizen
+    if (contentStr.includes('\n')) {
+      const lines = contentStr.split('\n').map(l => l.trim()).filter(Boolean);
+      if (lines.length > 0) {
+        const firstLine = lines[0].replace(/^[•*\-\s]+/, '').replace(/\*\*/g, '').trim();
+        const rest = lines.slice(1).join('\n').trim();
+        if (firstLine && !isGenericTitle(firstLine)) {
+          return {
+            title: firstLine,
+            content: rest || undefined
+          };
+        }
+      }
+    }
+
+    // Case 2d: Single-line string without colon: The whole string is the theme!
+    const singleClean = contentStr.replace(/^[•*\-\s]+/, '').replace(/\*\*/g, '').trim();
+    if (singleClean && !isGenericTitle(singleClean)) {
+      return {
+        title: singleClean,
+        content: undefined
+      };
+    }
+  }
+
+  // 3. Fallback: If rawSlot.title exists and is not generic, use it; otherwise 'Lerneinheit'
+  const fallbackTitle = !isGenericTitle(rawSlot.title)
+    ? String(rawSlot.title).trim()
+    : 'Lerneinheit';
+
+  return {
+    title: fallbackTitle,
+    content: contentStr || undefined
+  };
+}
+
 export interface ParseResult {
   success: boolean;
   entries: Record<string, DayEntry>;
@@ -156,18 +304,26 @@ export function parseGoogleDocsText(rawText: string, fallbackDate?: string): Par
       const endTime = normalizeTimeString(timeMatch[2]);
 
       let title = '';
-      let content = '';
+      let content: string | undefined = undefined;
 
       // Check if it's a tab-separated line (Direct Google Docs table paste)
       if (rawLine.includes('\t')) {
         detectedFormat = 'google_docs_table';
         const parts = rawLine.split('\t').map(p => p.trim()).filter(Boolean);
-        // Usually part 0 is time (or contains time), part 1 is topic/title, part 2 is notes
         const nonTimeParts = parts.filter(p => !timeRangeRegex.test(p));
         if (nonTimeParts.length > 0) {
-          title = nonTimeParts[0].replace(/^[•*\-\s]+/, '');
           if (nonTimeParts.length > 1) {
-            content = nonTimeParts.slice(1).join('\n');
+            const extracted = extractSlotTitleAndContent({
+              title: nonTimeParts[0],
+              content: nonTimeParts.slice(1).join('\n')
+            });
+            title = extracted.title;
+            content = extracted.content;
+          } else {
+            // Single cell in Google Docs table containing theme and notes
+            const extracted = extractSlotTitleAndContent({ content: nonTimeParts[0] });
+            title = extracted.title;
+            content = extracted.content;
           }
         }
       } else if (line.includes('|')) {
@@ -179,30 +335,13 @@ export function parseGoogleDocsText(rawText: string, fallbackDate?: string): Par
           .filter(Boolean);
         const colContent = cols.find(c => !timeRangeRegex.test(c)) || '';
         const cleanContent = colContent.replace(/<br\s*\/?>/gi, '\n');
-        
-        // Split title vs notes
-        const bulletMatch = cleanContent.match(/^[•*\-\s]*(?:\*\*)?([^*:\n]+)(?:\*\*)?(?::|\n)([\s\S]*)$/);
-        if (bulletMatch) {
-          title = bulletMatch[1].trim();
-          content = bulletMatch[2].trim();
-        } else {
-          title = cleanContent.split('\n')[0].replace(/^[•*\-\s]+/, '');
-          content = cleanContent.split('\n').slice(1).join('\n').trim();
-        }
+        const extracted = extractSlotTitleAndContent({ content: cleanContent });
+        title = extracted.title;
+        content = extracted.content;
       } else {
         // Plain text row: "09:00 - 10:20 : Live-Calls - notes..."
         const remainder = line.replace(timeMatch[0], '').replace(/^[:\-–|\s]+/, '').trim();
-        if (remainder) {
-          const bulletMatch = remainder.match(/^[•*\-\s]*([^:\n]+)(?::|\s-\s)([\s\S]*)$/);
-          if (bulletMatch) {
-            title = bulletMatch[1].trim();
-            content = bulletMatch[2].trim();
-          } else {
-            title = remainder.replace(/^[•*\-\s]+/, '');
-          }
-        } else {
-          title = 'Study Session';
-        }
+        let candidateText = remainder;
 
         // Peek at subsequent lines for notes until next time slot or date
         let nextIdx = i + 1;
@@ -216,17 +355,41 @@ export function parseGoogleDocsText(rawText: string, fallbackDate?: string): Par
           if (timeRangeRegex.test(nextLine) || /datum\s*:/i.test(nextLine)) {
             break; // Stop at next slot
           }
-          subNotes.push(nextLine.replace(/^[•*\-\s]+/, ''));
+          subNotes.push(nextLine);
           nextIdx++;
         }
-        if (subNotes.length > 0) {
-          content = content ? `${content}\n${subNotes.join('\n')}` : subNotes.join('\n');
+
+        if (!candidateText && subNotes.length > 0) {
+          // If the line only had the time, the first subsequent line IS the theme!
+          candidateText = subNotes[0];
+          const remainingSubNotes = subNotes.slice(1);
+          const extracted = extractSlotTitleAndContent({
+            content: candidateText + (remainingSubNotes.length > 0 ? '\n' + remainingSubNotes.join('\n') : '')
+          });
+          title = extracted.title;
+          content = extracted.content;
           i = nextIdx - 1; // Advance outer loop
+        } else if (candidateText) {
+          const combined = subNotes.length > 0 ? candidateText + '\n' + subNotes.join('\n') : candidateText;
+          const extracted = extractSlotTitleAndContent({ content: combined });
+          title = extracted.title;
+          content = extracted.content;
+          if (subNotes.length > 0) {
+            i = nextIdx - 1; // Advance outer loop
+          }
         }
       }
 
-      // Final cleanup
-      if (!title) title = 'Study Session';
+      // Final cleanup - ensure title is non-empty and never generic
+      if (!title || isGenericTitle(title)) {
+        if (content) {
+          const reExtract = extractSlotTitleAndContent({ content });
+          title = reExtract.title;
+          content = reExtract.content;
+        } else {
+          title = 'Lerneinheit';
+        }
+      }
       title = title.replace(/\*\*/g, '').trim();
 
       currentSlots.push({
@@ -285,12 +448,13 @@ export function parseDiaryJson(jsonContent: string | object): ParseResult {
       if (Array.isArray(obj.timeSlots)) {
         obj.timeSlots.forEach((s: any) => {
           if (!s) return;
+          const extracted = extractSlotTitleAndContent(s);
           slots.push({
             id: s.id || `slot-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-            startTime: normalizeTimeString(s.startTime || '09:00'),
-            endTime: normalizeTimeString(s.endTime || '10:30'),
-            title: s.title || s.topic || s.subject || 'Lerneinheit',
-            content: s.content || s.notes || s.description || undefined,
+            startTime: normalizeTimeString(s.startTime || s.start || '09:00'),
+            endTime: normalizeTimeString(s.endTime || s.end || '10:30'),
+            title: extracted.title,
+            content: extracted.content,
             codeSnippet: s.codeSnippet || undefined,
             attachments: s.attachments || [],
             completed: s.completed ?? true
@@ -317,12 +481,13 @@ export function parseDiaryJson(jsonContent: string | object): ParseResult {
             if (s.endTime) endTime = normalizeTimeString(s.endTime);
           }
 
+          const extracted = extractSlotTitleAndContent(s);
           slots.push({
             id: s.id || `slot-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
             startTime,
             endTime,
-            title: s.title || s.topic || s.name || s.thema || 'Lerneinheit',
-            content: s.content || s.notes || s.notizen || s.desc || undefined,
+            title: extracted.title,
+            content: extracted.content,
             codeSnippet: s.codeSnippet || undefined,
             attachments: s.attachments || [],
             completed: s.completed ?? true
@@ -331,24 +496,29 @@ export function parseDiaryJson(jsonContent: string | object): ParseResult {
       }
       // Case C: Legacy format (fixedLecture, customSlots)
       else {
-        if (obj.fixedLecture && obj.fixedLecture.topic) {
+        if (obj.fixedLecture && (obj.fixedLecture.topic || obj.fixedLecture.thema || obj.fixedLecture.theme)) {
+          const extracted = extractSlotTitleAndContent({
+            theme: obj.fixedLecture.topic || obj.fixedLecture.thema || obj.fixedLecture.theme,
+            content: obj.fixedLecture.instructorNotes || (obj.fixedLecture.keyConcepts ? obj.fixedLecture.keyConcepts.join(', ') : '')
+          });
           slots.push({
             id: `slot-lecture-${Date.now()}`,
             startTime: '09:00',
             endTime: '10:20',
-            title: obj.fixedLecture.topic,
-            content: obj.fixedLecture.instructorNotes || '',
+            title: extracted.title,
+            content: extracted.content,
             completed: true
           });
         }
         if (Array.isArray(obj.customSlots)) {
           obj.customSlots.forEach((cs: any) => {
+            const extracted = extractSlotTitleAndContent(cs);
             slots.push({
               id: cs.id || `slot-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
               startTime: normalizeTimeString(cs.startTime || '11:00'),
               endTime: normalizeTimeString(cs.endTime || '12:30'),
-              title: cs.title || 'Coding Slot',
-              content: cs.content || '',
+              title: extracted.title,
+              content: extracted.content,
               completed: true,
               attachments: cs.attachments || []
             });
